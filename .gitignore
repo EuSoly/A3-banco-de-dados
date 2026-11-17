@@ -1,0 +1,12 @@
+# Segredos
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Config local do Claude Code
+.claude/settings.local.json
