@@ -183,10 +183,19 @@ exaustiva.
 
 ---
 
-## 8. Fora de escopo (por ora)
+## 8. Segurança (RLS) e autenticação
+
+- **RLS habilitada** nas 13 tabelas desde a criação do schema (resolve o alerta
+  crítico do Supabase). As **policies por usuário** serão criadas na fase de
+  autenticação (login), restringindo `tb_build`/`tb_item_build`/`tb_coleta` ao dono e
+  deixando o catálogo legível conforme a regra definida ali.
+- **Login de usuário** é fase futura (planejada), não parte da primeira entrega.
+  A FastAPI conecta via connection string direta (role `postgres`, que ignora RLS),
+  então o CRUD funciona independentemente das policies.
+
+## 9. Fora de escopo (por ora)
 
 - Tabelas de specs para as 6 categorias genéricas (Gabinete, Placa-mãe, Cooler,
   Armazenamento, Fonte, Fans) — extensão futura via scraping.
-- Autenticação/login real de usuários (usuário é apenas dono de build).
 - Compatibilidade por constraint no banco (fica em DQL, por decisão de escopo).
 - Deploy em produção — protótipo roda localmente.
