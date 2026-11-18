@@ -62,6 +62,20 @@ VALUES ((SELECT id_produto    FROM tb_produto    WHERE nome = 'Processador AMD R
 -- Exemplo de DELETE (comentado para não apagar dado de demonstração):
 -- DELETE FROM tb_produto WHERE id_produto = 999;
 
--- ---- EM CONSTRUÇÃO (fazendo em sala, passo a passo) ----
--- tb_usuario, tb_build, tb_item_build  (cadeia das builds, N–N)
--- tb_coleta (histórico de preços; a da RAM vem do scraping)
+-- ---- Usuários → Build → Itens (cadeia N–N) ----
+INSERT INTO tb_usuario (nome, email) VALUES
+ ('Elizeu Walczuk Ruthes', 'elizeu.w.ruthes@gmail.com'),
+ ('Bernardo Miguel Hoy da Silveira', 'bernardomhoy@gmail.com');
+
+INSERT INTO tb_build (nome, id_usuario)
+VALUES ('PC Gamer 2000',
+        (SELECT id_usuario FROM tb_usuario WHERE email = 'elizeu.w.ruthes@gmail.com'));
+
+-- Itens da build: a placa de vídeo e o processador (N–N build↔produto)
+INSERT INTO tb_item_build (id_build, id_produto, quantidade) VALUES
+  ((SELECT id_build   FROM tb_build   WHERE nome = 'PC Gamer 2000'),
+   (SELECT id_produto FROM tb_produto WHERE nome = 'Placa de Vídeo NVIDIA RTX 4060'), 1),
+  ((SELECT id_build   FROM tb_build   WHERE nome = 'PC Gamer 2000'),
+   (SELECT id_produto FROM tb_produto WHERE nome = 'Processador AMD Ryzen 5 5600'), 1);
+
+-- tb_coleta (histórico de preços): a da RAM vem do scraping (ingestao/importar_ram.py)
